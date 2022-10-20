@@ -18,10 +18,8 @@
         android:theme="@style/Theme.WaterMyPlants"
         tools:targetApi="31">
         <activity
-            android:name=".FinishPlant"
-            android:exported="false" />
-        <activity
             android:name=".CameraActivity"
+            android:theme="@style/Theme.WaterMyPlants.Camera"
             android:exported="false" />
         <activity
             android:name=".DetailsScreen"

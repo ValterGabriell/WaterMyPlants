@@ -1,8 +1,12 @@
 package com.example.watermyplants.Chips
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import androidx.annotation.DrawableRes
+import com.example.watermyplants.Constants
+import com.example.watermyplants.Constants.TAG
+import com.example.watermyplants.Constants.makeAToast
 import com.google.android.material.chip.Chip
 
 data class FilterItemLight(
@@ -15,7 +19,6 @@ fun FilterItemLight.toChip(context: Context): Chip {
     chip.apply {
         when (id_filter) {
             0 -> {
-
                 this.text = "Muita luz"
 
             }

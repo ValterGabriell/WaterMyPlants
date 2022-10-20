@@ -24,6 +24,9 @@ class MainActivity : AppCompatActivity() {
         adapter = MyAdapter(testData())
         binding.recyclerWaterToday.adapter = adapter
         binding.recyclerWaterToday.layoutManager = LinearLayoutManager(this)
+        adapter.onItemClick = { plant_id, position ->
+            startActivity(Intent(this, DetailsScreen::class.java))
+        }
 
 
         binding.textView.setOnClickListener {
@@ -36,30 +39,33 @@ class MainActivity : AppCompatActivity() {
     private fun testData(): ArrayList<PlantItem> {
         return arrayListOf(
             PlantItem(
+                1,
                 "Primeira Planta",
                 250,
                 Color.YELLOW,
-                StringsConstantes.LOW,
+                Constants.LOW,
                 24.4,
-                StringsConstantes.DAILY,
+                Constants.DAILY,
                 null
             ),
             PlantItem(
+                2,
                 "Segunda Planta",
                 250,
                 Color.CYAN,
-                StringsConstantes.LOW,
+                Constants.LOW,
                 24.4,
-                StringsConstantes.DAILY,
+                Constants.DAILY,
                 null
             ),
             PlantItem(
+                3,
                 "Terceira Planta",
                 250,
                 Color.LTGRAY,
-                StringsConstantes.LOW,
+                Constants.LOW,
                 24.4,
-                StringsConstantes.DAILY,
+                Constants.DAILY,
                 null
             )
         )

@@ -3,43 +3,21 @@ package com.example.watermyplants
 import android.Manifest
 import android.net.Uri
 import android.os.Bundle
-import android.view.View
+import android.view.Menu
+import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.example.watermyplants.Chips.FilterItemColor
-import com.example.watermyplants.Chips.FilterItemFrequency
-import com.example.watermyplants.Chips.FilterItemLight
 import com.example.watermyplants.Chips.toChip
+import com.example.watermyplants.Constants.filterChipToSave
 import com.example.watermyplants.databinding.ActivityCameraBinding
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
-import kotlin.random.Random
 
 class CameraActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
 
 
     private lateinit var binding: ActivityCameraBinding
 
-    private var filters_color = arrayOf(
-        FilterItemColor(0),
-        FilterItemColor(1),
-        FilterItemColor(2)
-    )
-
-    private var filters_light = arrayOf(
-        FilterItemLight(0),
-        FilterItemLight(1)
-    )
-
-    private var filter_frequency = arrayOf(
-        FilterItemFrequency(0),
-        FilterItemFrequency(1),
-        FilterItemFrequency(2),
-        FilterItemFrequency(3),
-        FilterItemFrequency(4),
-        FilterItemFrequency(5),
-        FilterItemFrequency(6)
-    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,23 +27,11 @@ class CameraActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks 
 
         val hasPermissions = methodRequireCameraPermission()
         if (hasPermissions) {
-
-            val getContent =
-                registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-                    doSomethingWithURI(uri!!)
-                }
-            getContent.launch("image/*")
-
-
+            setCameraLaunch()
         }
-
-
-
-
     }
 
     private fun doSomethingWithURI(uri: Uri) {
-        binding.activityCameraImg.visibility = View.VISIBLE
         binding.activityCameraImg.setImageURI(uri)
     }
 
@@ -90,11 +56,7 @@ class CameraActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks 
     }
 
     override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
-        val getContent =
-            registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-                doSomethingWithURI(uri!!)
-            }
-        getContent.launch("image/*")
+        setCameraLaunch()
     }
 
     override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
@@ -104,24 +66,72 @@ class CameraActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks 
     }
 
     private fun configureChip() {
-        filters_color.forEach { filterItem ->
-            binding.chipGroupFilter.addView(filterItem.toChip(this))
+        Constants.filters_color.forEach { filterItem ->
+            binding.chipGroupFilter.apply {
+                addView(filterItem.toChip(this@CameraActivity))
+            }
         }
 
-        filters_light.forEach { filterItemLight ->
+        Constants.filters_light.forEach { filterItemLight ->
             binding.chipGroupFilterLight.addView(filterItemLight.toChip(this))
         }
 
-        filter_frequency.forEach { filter_frequency ->
+        Constants.filter_frequency.forEach { filter_frequency ->
             binding.chipGroupFilterFrequency.addView(filter_frequency.toChip(this))
         }
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_camera, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.toolbar_camera_btn_save -> {
+                savePlant()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun savePlant() {
+        val txt_title = binding.activityCameraTitleEditText.text.toString()
+        val txt_qtd = binding.activityCameraMlEditText.text.toString()
+        val txt_temperature = binding.activityCameraTemperatureEditText.text.toString()
+
+        val light_chip = Constants.filterChipToSave(binding.chipGroupFilterLight)
+        val color_chip = Constants.filterChipToSave(binding.chipGroupFilter)
+
+        val day_chip = Constants.filterChipToSave(binding.chipGroupFilterFrequency)
+        val strWithNoSpaces = day_chip.replace(", ", ",")
 
 
 
     }
 
-    private fun generateRandomNumber(): Int {
-        return Random.nextInt(4)
+
+    private fun checkDayInsideTheList(arrayInStr: String): ArrayList<String> {
+        val arrayWithDays = arrayListOf<String>()
+        val strWithNoSpaces = arrayInStr.replace(", ", ",")
+        val strInArray = strWithNoSpaces.split(".")
+
+        strInArray.forEach {
+            arrayWithDays.add(it)
+        }
+
+        return arrayWithDays
+
+
+    }
+
+    private fun setCameraLaunch() {
+        val getContent =
+            registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+                doSomethingWithURI(uri!!)
+            }
+        return getContent.launch("image/*")
     }
 
 }

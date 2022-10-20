@@ -20,7 +20,6 @@ class MyAdapter(val itens: List<PlantItem>) : RecyclerView.Adapter<MyAdapter.MyV
             val btnWater = itemView.findViewById<ImageView>(R.id.imageView2)
 
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -29,8 +28,13 @@ class MyAdapter(val itens: List<PlantItem>) : RecyclerView.Adapter<MyAdapter.MyV
         return MyViewHolder(view)
     }
 
+    var onItemClick: ((Int, Int) -> Unit)? = null
+
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.bind(itens[position])
+        holder.itemView.findViewById<CardView>(R.id.card_view_layout).setOnClickListener {
+            onItemClick?.invoke(itens[position].id, position)
+        }
     }
 
     override fun getItemCount(): Int = itens.size
