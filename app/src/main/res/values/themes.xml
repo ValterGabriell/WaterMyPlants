@@ -13,6 +13,8 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="fontFamily">@font/rubik_regular</item>
+        <!-- enable window content transitions -->
+
     </style>
 
     <style name="Theme.WaterMyPlants.Details" parent="Theme.MaterialComponents.Light.NoActionBar">
@@ -28,6 +30,7 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="fontFamily">@font/rubik_regular</item>
+        <item name="android:windowActivityTransitions">true</item>
     </style>
 
 
@@ -45,6 +48,7 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="fontFamily">@font/rubik_regular</item>
+        <item name="android:windowActivityTransitions">true</item>
     </style>
     
 

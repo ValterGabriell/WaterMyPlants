@@ -53,6 +53,7 @@ dependencies {
     implementation "io.insert-koin:koin-androidx-workmanager:$koin_android_version"
     implementation "io.insert-koin:koin-android:$koin_android_version"
 
+
     //room
     def room_version = "2.4.1"
     implementation "androidx.room:room-runtime:$room_version"
@@ -74,6 +75,11 @@ dependencies {
 
     // For developers using the Android Support Library
     implementation 'pub.devrel:easypermissions:3.0.0'
+
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.2.1")
+
+
+
 
 
 

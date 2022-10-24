@@ -8,7 +8,9 @@ import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.watermyplants.Chips.toChip
-import com.example.watermyplants.Constants.filterChipToSave
+import com.example.watermyplants.Utils.Constants
+import com.example.watermyplants.Utils.Constants.filterChipToSave
+import com.example.watermyplants.Utils.Constants.filterDay
 import com.example.watermyplants.databinding.ActivityCameraBinding
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
@@ -106,6 +108,10 @@ class CameraActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks 
 
         val day_chip = Constants.filterChipToSave(binding.chipGroupFilterFrequency)
         val strWithNoSpaces = day_chip.replace(", ", ",")
+
+
+        Constants.filterDay(day_chip)
+
 
 
 

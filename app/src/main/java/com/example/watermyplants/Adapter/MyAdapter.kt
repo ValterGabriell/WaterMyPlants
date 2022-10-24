@@ -14,7 +14,8 @@ class MyAdapter(val itens: List<PlantItem>) : RecyclerView.Adapter<MyAdapter.MyV
 
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(plantItem: PlantItem) {
-            itemView.findViewById<CardView>(R.id.card_view_layout).setCardBackgroundColor(plantItem.color!!)
+            itemView.findViewById<CardView>(R.id.card_view_layout)
+                .setCardBackgroundColor(plantItem.color!!)
             itemView.findViewById<TextView>(R.id.txt_plant_name).text = plantItem.title
             itemView.findViewById<TextView>(R.id.txt_qtd_water).text = plantItem.ml.toString()
             val btnWater = itemView.findViewById<ImageView>(R.id.imageView2)
@@ -28,6 +29,7 @@ class MyAdapter(val itens: List<PlantItem>) : RecyclerView.Adapter<MyAdapter.MyV
         return MyViewHolder(view)
     }
 
+
     var onItemClick: ((Int, Int) -> Unit)? = null
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
@@ -35,6 +37,7 @@ class MyAdapter(val itens: List<PlantItem>) : RecyclerView.Adapter<MyAdapter.MyV
         holder.itemView.findViewById<CardView>(R.id.card_view_layout).setOnClickListener {
             onItemClick?.invoke(itens[position].id, position)
         }
+
     }
 
     override fun getItemCount(): Int = itens.size
