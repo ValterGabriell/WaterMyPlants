@@ -4,14 +4,17 @@ import android.Manifest
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.watermyplants.Broadcasts.ReminderBroadcast
 import com.example.watermyplants.Chips.toChip
+import com.example.watermyplants.Model.PlantItem
 import com.example.watermyplants.Utils.Constants
 import com.example.watermyplants.Utils.Constants.filterChipToSave
 import com.example.watermyplants.Utils.Constants.filterDay
@@ -115,8 +118,23 @@ class CameraActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks 
         val day_chip = Constants.filterChipToSave(binding.chipGroupFilterFrequency)
         val strWithNoSpaces = day_chip.replace(", ", ",")
 
+        var color = 0
+        when(color_chip){
+            "1" ->{
+                color = Color.YELLOW
+            }
+            "2"->{
+                color = Color.CYAN
+            }
+            "3"->{
+                color = Color.MAGENTA
+            }
+        }
 
-        Constants.filterDay(day_chip)
+        val dayInLong = Constants.filterDay(day_chip)
+        val plantItem = PlantItem(0, txt_title, txt_qtd.toInt(), color, light_chip, txt_temperature.toFloat(), dayInLong, null, false)
+
+        Log.i(Constants.TAG, plantItem.toString())
         scheduleNotification(day_chip, txt_title)
 
 

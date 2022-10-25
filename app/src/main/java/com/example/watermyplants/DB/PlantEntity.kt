@@ -22,7 +22,7 @@ class PlantEntity(
     @ColumnInfo(name = "temperature")
     val temperature: Float = 0f,
     @ColumnInfo(name = "frequencyDay")
-    val frequencyDay: String = "",
+    val frequencyDay: Long = 0L,
     @ColumnInfo(name = "photo")
     val photo:Bitmap? = null,
     @ColumnInfo(name = "isWater")

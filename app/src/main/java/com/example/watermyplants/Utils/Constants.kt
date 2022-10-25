@@ -83,8 +83,8 @@ object Constants {
                 250,
                 Color.YELLOW,
                 LOW,
-                24.4,
-                DAILY,
+                24.4f,
+                123L,
                 null
             ),
             PlantItem(
@@ -93,8 +93,8 @@ object Constants {
                 250,
                 Color.CYAN,
                 LOW,
-                24.4,
-                DAILY,
+                24.4f,
+                123,
                 null
             ),
             PlantItem(
@@ -103,8 +103,8 @@ object Constants {
                 250,
                 Color.LTGRAY,
                 LOW,
-                24.4,
-                DAILY,
+                24.4f,
+                123,
                 null
             )
         )
