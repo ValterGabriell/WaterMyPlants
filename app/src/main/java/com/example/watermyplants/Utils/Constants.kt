@@ -22,21 +22,20 @@ object Constants {
     const val TAG = "TAG"
     const val PLANT_ID = "PLANT_ID"
 
-    const val DAQUI1DIA = "DAQUI 1 DIA"
-    const val DAQUI2DIAS = "DAQUI 2 DIAS"
-    const val DAQUI3DIAS = "DAQUI 3 DIAS"
-    const val DAQUI4DIAS = "DAQUI 4 DIAS"
-    const val DAQUI5DIAS = "DAQUI 5 DIAS"
-    const val DAQUI6DIAS = "DAQUI 6 DIAS"
-    const val DAQUI7DIAS = "DAQUI 7 DIAS"
+    const val DAQUI1DIA = "Daqui 1 dia"
+    const val DAQUI2DIAS = "Daqui 2 dias"
+    const val DAQUI3DIAS = "Daqui 3 dias"
+    const val DAQUI4DIAS = "Daqui 4 dias"
+    const val DAQUI5DIAS = "Daqui 5 dias"
+    const val DAQUI6DIAS = "Daqui 6 dias"
+    const val DAQUI7DIAS = "Daqui 7 dias"
 
 
 
 
     const val notificationID = 156
-    const val channelID = "one"
-    const val titleExtra = "extra"
-    const val message = "message"
+    const val channelID = "Canal de notificação-ID"
+    const val channelName = "Canal de notificação"
 
 
     val filters_color = arrayOf(

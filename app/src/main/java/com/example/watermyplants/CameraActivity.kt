@@ -1,16 +1,21 @@
 package com.example.watermyplants
 
 import android.Manifest
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.example.watermyplants.Broadcasts.ReminderBroadcast
 import com.example.watermyplants.Chips.toChip
 import com.example.watermyplants.Utils.Constants
 import com.example.watermyplants.Utils.Constants.filterChipToSave
 import com.example.watermyplants.Utils.Constants.filterDay
+import com.example.watermyplants.Utils.Constants.makeAToast
 import com.example.watermyplants.databinding.ActivityCameraBinding
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
@@ -99,6 +104,7 @@ class CameraActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks 
     }
 
     private fun savePlant() {
+
         val txt_title = binding.activityCameraTitleEditText.text.toString()
         val txt_qtd = binding.activityCameraMlEditText.text.toString()
         val txt_temperature = binding.activityCameraTemperatureEditText.text.toString()
@@ -111,10 +117,23 @@ class CameraActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks 
 
 
         Constants.filterDay(day_chip)
+        scheduleNotification(day_chip, txt_title)
 
 
+    }
 
 
+    private fun scheduleNotification(day:String, plantname:String) {
+        val intent = Intent(this, ReminderBroadcast::class.java)
+        intent.putExtra("name", "Planta1")
+        intent.putExtra("description", day)
+        val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+        val long = System.currentTimeMillis()
+        val fiveSecond = 1000 * 2
+        alarmManager.set(AlarmManager.RTC_WAKEUP, long + fiveSecond, pendingIntent)
+
+        Constants.makeAToast(this, "$plantname foi programada para alarmar $day", 1)
     }
 
 

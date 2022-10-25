@@ -15,7 +15,7 @@ class MyAdapter(val itens: List<PlantItem>) : RecyclerView.Adapter<MyAdapter.MyV
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(plantItem: PlantItem) {
             itemView.findViewById<CardView>(R.id.card_view_layout)
-                .setCardBackgroundColor(plantItem.color!!)
+                .setCardBackgroundColor(plantItem.plantColor!!)
             itemView.findViewById<TextView>(R.id.txt_plant_name).text = plantItem.title
             itemView.findViewById<TextView>(R.id.txt_qtd_water).text = plantItem.ml.toString()
             val btnWater = itemView.findViewById<ImageView>(R.id.imageView2)
