@@ -25,7 +25,7 @@ class PlantEntity(
     @ColumnInfo(name = "frequencyDay")
     var frequencyDay: String = "",
     @ColumnInfo(name = "photo")
-    var photo: String? = null,
+    var photo: Bitmap? = null,
     @ColumnInfo(name = "isWater")
     var isWater: Boolean = false
 ) {

@@ -4,6 +4,8 @@ import android.Manifest
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
@@ -26,6 +28,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
+import java.io.ByteArrayOutputStream
 import java.util.*
 
 
@@ -34,7 +37,7 @@ class CameraActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks 
 
     private lateinit var binding: ActivityCameraBinding
     private val viewModel: CameraViewModel by viewModels()
-    private lateinit var imgBA: String
+    private lateinit var imgBA: Bitmap
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -251,8 +254,11 @@ class CameraActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks 
     private fun setCameraLaunch() {
         val getContent =
             registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-                imgBA = uri!!.toString()
-                binding.activityCameraImg.setImageURI(uri)
+                val inputStr = contentResolver.openInputStream(uri!!)
+                val image = BitmapFactory.decodeStream(inputStr)
+                binding.activityCameraImg.setImageBitmap(image)
+                imgBA = image
+
             }
         return getContent.launch("image/*")
     }

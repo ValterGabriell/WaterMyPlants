@@ -1,6 +1,6 @@
 package com.example.watermyplants.Model
 
-import android.net.Uri
+import android.graphics.Bitmap
 
 data class PlantItem(
     val id:Int,
@@ -10,6 +10,6 @@ data class PlantItem(
     val light: String,
     val temperature:Float,
     val frequencyDay:String,
-    val photo:String?,
+    val photo:Bitmap?,
     val isWater : Boolean = false
 )

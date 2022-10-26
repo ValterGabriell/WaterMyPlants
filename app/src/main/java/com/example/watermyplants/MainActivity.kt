@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        createExemplePlant()
+
 
 
 
@@ -77,14 +77,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun createExemplePlant() {
-        val plantItem = PlantItem(
-            1, "Planta exemplo", 45, Color.LTGRAY, Constants.HIGH, 16f, Constants.DAQUI6DIAS,
-            "uri", false
-        )
-
-
-    }
 }
 
 

@@ -1,6 +1,6 @@
 package com.example.watermyplants.Adapter
 
-import android.net.Uri
+import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,11 +17,12 @@ class MyAdapter(val itens: List<PlantItem>) : RecyclerView.Adapter<MyAdapter.MyV
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(plantItem: PlantItem) {
             itemView.findViewById<CardView>(R.id.card_view_layout)
-                .setCardBackgroundColor(plantItem.plantColor!!)
+                .setCardBackgroundColor(plantItem.plantColor)
             itemView.findViewById<TextView>(R.id.txt_plant_name).text = plantItem.title
-            itemView.findViewById<TextView>(R.id.txt_qtd_water).text = plantItem.ml.toString() + " ml"
-            Picasso.get().load(Uri.parse(plantItem.photo)).into(itemView.findViewById<ImageView>(R.id.imageView))
-
+            itemView.findViewById<TextView>(R.id.txt_qtd_water).text =
+                plantItem.ml.toString() + " ml"
+            val imagem = itemView.findViewById<ImageView>(R.id.imageView)
+            imagem.setImageBitmap(plantItem.photo)
         }
     }
 
