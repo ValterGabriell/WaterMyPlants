@@ -16,4 +16,8 @@
     <color name="filter_purple">#866E9E</color>
     <color name="filter_checked">#EF6D6D</color>
 
+    <color name="yellow">#FFF300</color>
+    <color name="cyan">#00FFF7</color>
+    <color name="ltgray">#757575</color>
+
 </resources>

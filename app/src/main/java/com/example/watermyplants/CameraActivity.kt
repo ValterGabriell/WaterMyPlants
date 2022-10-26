@@ -11,38 +11,42 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.watermyplants.Broadcasts.ReminderBroadcast
 import com.example.watermyplants.Chips.toChip
 import com.example.watermyplants.Model.PlantItem
 import com.example.watermyplants.Utils.Constants
 import com.example.watermyplants.Utils.Constants.filterChipToSave
-import com.example.watermyplants.Utils.Constants.filterDay
 import com.example.watermyplants.Utils.Constants.makeAToast
+import com.example.watermyplants.ViewModel.CameraViewModel
 import com.example.watermyplants.databinding.ActivityCameraBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
+import java.util.*
+
 
 class CameraActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
 
 
     private lateinit var binding: ActivityCameraBinding
-
+    private val viewModel: CameraViewModel by viewModels()
+    private lateinit var imgBA: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCameraBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.title = "Adicionar planta"
         configureChip()
 
         val hasPermissions = methodRequireCameraPermission()
         if (hasPermissions) {
             setCameraLaunch()
         }
-    }
-
-    private fun doSomethingWithURI(uri: Uri) {
-        binding.activityCameraImg.setImageURI(uri)
     }
 
 
@@ -66,7 +70,7 @@ class CameraActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks 
     }
 
     override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
-        setCameraLaunch()
+        startActivity(Intent(this, MainActivity::class.java))
     }
 
     override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
@@ -111,68 +115,144 @@ class CameraActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks 
         val txt_title = binding.activityCameraTitleEditText.text.toString()
         val txt_qtd = binding.activityCameraMlEditText.text.toString()
         val txt_temperature = binding.activityCameraTemperatureEditText.text.toString()
-
-        val light_chip = Constants.filterChipToSave(binding.chipGroupFilterLight)
         val color_chip = Constants.filterChipToSave(binding.chipGroupFilter)
 
         val day_chip = Constants.filterChipToSave(binding.chipGroupFilterFrequency)
-        val strWithNoSpaces = day_chip.replace(", ", ",")
 
         var color = 0
-        when(color_chip){
-            "1" ->{
+        when (color_chip) {
+            "1" -> {
                 color = Color.YELLOW
             }
-            "2"->{
+            "2" -> {
                 color = Color.CYAN
             }
-            "3"->{
-                color = Color.MAGENTA
+            "3" -> {
+                color = Color.LTGRAY
             }
         }
 
-        val dayInLong = Constants.filterDay(day_chip)
-        val plantItem = PlantItem(0, txt_title, txt_qtd.toInt(), color, light_chip, txt_temperature.toFloat(), dayInLong, null, false)
+        if (txt_title.isNotEmpty() && txt_qtd.isNotEmpty() && txt_temperature.isNotEmpty()) {
+            val plantItem = PlantItem(
+                System.currentTimeMillis().toInt(),
+                txt_title,
+                txt_qtd.toInt(),
+                color,
+                Constants.filterChipToSave(binding.chipGroupFilterLight),
+                txt_temperature.toFloat(),
+                day_chip,
+                imgBA,
+                false
+            )
+            CoroutineScope(Dispatchers.IO).launch {
+                viewModel.inserNewPlant(plantItem)
+                CoroutineScope(Dispatchers.Main).launch {
+                    Constants.makeAToast(
+                        this@CameraActivity,
+                        "Planta adicionada com sucesso, frequência: $day_chip",
+                        1
+                    )
+                    startActivity(Intent(this@CameraActivity, MainActivity::class.java))
+                }
 
-        Log.i(Constants.TAG, plantItem.toString())
-        scheduleNotification(day_chip, txt_title)
 
+            }.invokeOnCompletion {
+                CoroutineScope(Dispatchers.IO).launch {
+                    Log.i(Constants.TAG, plantItem.id.toString())
+                    scheduleNotification(day_chip, plantItem.id, plantItem)
+                }
 
-    }
+            }
 
-
-    private fun scheduleNotification(day:String, plantname:String) {
-        val intent = Intent(this, ReminderBroadcast::class.java)
-        intent.putExtra("name", "Planta1")
-        intent.putExtra("description", day)
-        val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
-        val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
-        val long = System.currentTimeMillis()
-        val fiveSecond = 1000 * 2
-        alarmManager.set(AlarmManager.RTC_WAKEUP, long + fiveSecond, pendingIntent)
-
-        Constants.makeAToast(this, "$plantname foi programada para alarmar $day", 1)
-    }
-
-
-    private fun checkDayInsideTheList(arrayInStr: String): ArrayList<String> {
-        val arrayWithDays = arrayListOf<String>()
-        val strWithNoSpaces = arrayInStr.replace(", ", ",")
-        val strInArray = strWithNoSpaces.split(".")
-
-        strInArray.forEach {
-            arrayWithDays.add(it)
         }
 
-        return arrayWithDays
-
 
     }
+
+
+    private fun scheduleNotification(day: String, id: Int, plantItem: PlantItem) {
+        Log.i(Constants.TAG, plantItem.toString())
+        val intent = Intent(applicationContext, ReminderBroadcast::class.java)
+        intent.putExtra("description", day)
+        intent.putExtra("id", id)
+        intent.putExtra("title", plantItem.title)
+        val pendingIntent =
+            PendingIntent.getBroadcast(this, id, intent, PendingIntent.FLAG_IMMUTABLE)
+        val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+
+        //setando para o alarme disparar as 12h30
+        val calendar = Calendar.getInstance().apply {
+            timeInMillis = System.currentTimeMillis()
+            set(Calendar.HOUR_OF_DAY, 12)
+            set(Calendar.MINUTE, 0)
+        }
+
+        when (day) {
+            Constants.DAQUI1DIA -> {
+                alarmManager.setRepeating(
+                    AlarmManager.RTC_WAKEUP,
+                    calendar.timeInMillis,
+                    AlarmManager.INTERVAL_DAY,
+                    pendingIntent
+                )
+            }
+            Constants.DAQUI2DIAS -> {
+                alarmManager.setRepeating(
+                    AlarmManager.RTC_WAKEUP,
+                    calendar.timeInMillis,
+                    AlarmManager.INTERVAL_DAY * 2,
+                    pendingIntent
+                )
+            }
+            Constants.DAQUI3DIAS -> {
+                alarmManager.setRepeating(
+                    AlarmManager.RTC_WAKEUP,
+                    calendar.timeInMillis,
+                    AlarmManager.INTERVAL_DAY * 3,
+                    pendingIntent
+                )
+            }
+            Constants.DAQUI4DIAS -> {
+                alarmManager.setRepeating(
+                    AlarmManager.RTC_WAKEUP,
+                    calendar.timeInMillis,
+                    AlarmManager.INTERVAL_DAY * 4,
+                    pendingIntent
+                )
+            }
+            Constants.DAQUI5DIAS -> {
+                alarmManager.setRepeating(
+                    AlarmManager.RTC_WAKEUP,
+                    calendar.timeInMillis,
+                    AlarmManager.INTERVAL_DAY * 5,
+                    pendingIntent
+                )
+            }
+            Constants.DAQUI6DIAS -> {
+                alarmManager.setRepeating(
+                    AlarmManager.RTC_WAKEUP,
+                    calendar.timeInMillis,
+                    AlarmManager.INTERVAL_DAY * 6,
+                    pendingIntent
+                )
+            }
+            Constants.DAQUI7DIAS -> {
+                alarmManager.setRepeating(
+                    AlarmManager.RTC_WAKEUP,
+                    calendar.timeInMillis,
+                    AlarmManager.INTERVAL_DAY * 7,
+                    pendingIntent
+                )
+            }
+        }
+    }
+
 
     private fun setCameraLaunch() {
         val getContent =
             registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-                doSomethingWithURI(uri!!)
+                imgBA = uri!!.toString()
+                binding.activityCameraImg.setImageURI(uri)
             }
         return getContent.launch("image/*")
     }

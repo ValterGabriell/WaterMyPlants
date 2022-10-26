@@ -1,5 +1,6 @@
 package com.example.watermyplants.Adapter
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.watermyplants.Model.PlantItem
 import com.example.watermyplants.R
+import com.squareup.picasso.Picasso
 
 class MyAdapter(val itens: List<PlantItem>) : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
 
@@ -17,8 +19,8 @@ class MyAdapter(val itens: List<PlantItem>) : RecyclerView.Adapter<MyAdapter.MyV
             itemView.findViewById<CardView>(R.id.card_view_layout)
                 .setCardBackgroundColor(plantItem.plantColor!!)
             itemView.findViewById<TextView>(R.id.txt_plant_name).text = plantItem.title
-            itemView.findViewById<TextView>(R.id.txt_qtd_water).text = plantItem.ml.toString()
-            val btnWater = itemView.findViewById<ImageView>(R.id.imageView2)
+            itemView.findViewById<TextView>(R.id.txt_qtd_water).text = plantItem.ml.toString() + " ml"
+            Picasso.get().load(Uri.parse(plantItem.photo)).into(itemView.findViewById<ImageView>(R.id.imageView))
 
         }
     }

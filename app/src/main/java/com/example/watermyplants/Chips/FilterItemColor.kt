@@ -13,15 +13,15 @@ fun FilterItemColor.toChip(context: Context): Chip {
     chip.apply {
         when (id_filter) {
             0 -> {
-                setChipBackgroundColorResource(com.example.watermyplants.R.color.filter_green)
+                setChipBackgroundColorResource(com.example.watermyplants.R.color.yellow)
                 this.text = "1"
             }
             1 -> {
-                setChipBackgroundColorResource(com.example.watermyplants.R.color.filter_purple)
+                setChipBackgroundColorResource(com.example.watermyplants.R.color.ltgray)
                 this.text = "2"
             }
             2 -> {
-                setChipBackgroundColorResource(com.example.watermyplants.R.color.filter_blue)
+                setChipBackgroundColorResource(com.example.watermyplants.R.color.cyan)
                 this.text = "3"
             }
         }

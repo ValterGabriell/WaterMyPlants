@@ -57,8 +57,7 @@ dependencies {
     //room
     def room_version = "2.4.1"
     implementation "androidx.room:room-runtime:$room_version"
-    annotationProcessor "androidx.room:room-compiler:$room_version"
-    implementation "androidx.room:room-ktx:2.4.3"
+    kapt ("androidx.room:room-compiler:$room_version")
 
     //view modle ktx
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"

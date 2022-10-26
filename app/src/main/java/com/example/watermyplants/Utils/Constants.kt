@@ -1,17 +1,18 @@
 package com.example.watermyplants.Utils
 
 import android.content.Context
-import android.graphics.Color
+import android.graphics.Bitmap
+import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import androidx.core.view.children
 import com.example.watermyplants.Chips.FilterItemColor
 import com.example.watermyplants.Chips.FilterItemFrequency
 import com.example.watermyplants.Chips.FilterItemLight
-import com.example.watermyplants.Model.PlantItem
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import kotlinx.datetime.*
+import java.io.ByteArrayOutputStream
 
 object Constants {
     const val LOW = "Pouca"
@@ -22,18 +23,15 @@ object Constants {
     const val TAG = "TAG"
     const val PLANT_ID = "PLANT_ID"
 
-    const val DAQUI1DIA = "Daqui 1 dia"
-    const val DAQUI2DIAS = "Daqui 2 dias"
-    const val DAQUI3DIAS = "Daqui 3 dias"
-    const val DAQUI4DIAS = "Daqui 4 dias"
-    const val DAQUI5DIAS = "Daqui 5 dias"
-    const val DAQUI6DIAS = "Daqui 6 dias"
-    const val DAQUI7DIAS = "Daqui 7 dias"
+    const val DAQUI1DIA = "Diariamente"
+    const val DAQUI2DIAS = "2 em 2 dias"
+    const val DAQUI3DIAS = "3 em 3 dias"
+    const val DAQUI4DIAS = "4 em 4 dias"
+    const val DAQUI5DIAS = "5 em 5 dias"
+    const val DAQUI6DIAS = "6 em 6 dias"
+    const val DAQUI7DIAS = "7 em 7 dias"
 
 
-
-
-    const val notificationID = 156
     const val channelID = "Canal de notificação-ID"
     const val channelName = "Canal de notificação"
 
@@ -46,7 +44,8 @@ object Constants {
 
     val filters_light = arrayOf(
         FilterItemLight(0),
-        FilterItemLight(1)
+        FilterItemLight(1),
+        FilterItemLight(2),
     )
 
     val filter_frequency = arrayOf(
@@ -72,42 +71,6 @@ object Constants {
                 (it as Chip).text.toString()
             }.toList()
         return name.toString().replace("[", "").replace("]", "")
-    }
-
-
-    fun Constants.testData(): ArrayList<PlantItem> {
-        return arrayListOf(
-            PlantItem(
-                1,
-                "Primeira Planta",
-                250,
-                Color.YELLOW,
-                LOW,
-                24.4f,
-                123L,
-                null
-            ),
-            PlantItem(
-                2,
-                "Segunda Planta",
-                250,
-                Color.CYAN,
-                LOW,
-                24.4f,
-                123,
-                null
-            ),
-            PlantItem(
-                3,
-                "Terceira Planta",
-                250,
-                Color.LTGRAY,
-                LOW,
-                24.4f,
-                123,
-                null
-            )
-        )
     }
 
 
@@ -148,6 +111,5 @@ object Constants {
         }
         Log.i(this.TAG, diffInMillis.toString())
         return diffInMillis
-
     }
 }

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ln"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/blue_light"
@@ -103,7 +104,8 @@
                         android:id="@+id/imageView5"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        app:srcCompat="@drawable/ic_settings" />
+                        android:layout_marginRight="4dp"
+                        app:srcCompat="@drawable/ic_baseline_scatter_plot_24" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -146,7 +148,8 @@
                         android:id="@+id/imageView6"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        app:srcCompat="@drawable/ic_settings" />
+                        android:layout_marginRight="4dp"
+                        app:srcCompat="@drawable/ic_baseline_wb_sunny_24" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -168,7 +171,7 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
@@ -189,7 +192,8 @@
                         android:id="@+id/imageView9"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        app:srcCompat="@drawable/ic_settings" />
+                        android:layout_marginRight="4dp"
+                        app:srcCompat="@drawable/ic_baseline_invert_colors_24_white" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -232,7 +236,8 @@
                         android:id="@+id/imageView91"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        app:srcCompat="@drawable/ic_settings" />
+                        android:layout_marginRight="4dp"
+                        app:srcCompat="@drawable/ic_baseline_settings_system_daydream_24" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -276,12 +281,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
+                android:backgroundTint="@color/filter_checked"
                 android:clickable="true"
-                app:backgroundTint="@color/teal_700"
+                app:backgroundTint="@color/filter_checked"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guideline22"
                 app:layout_constraintStart_toStartOf="@+id/guideline18"
-                app:srcCompat="@drawable/ic_baseline_invert_colors_24" />
+                app:srcCompat="@drawable/ic_baseline_delete_forever_24" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline18"
