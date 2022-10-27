@@ -4,7 +4,6 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.watermyplants.Utils.Constants
@@ -27,13 +26,17 @@ class DetailsScreen : AppCompatActivity() {
         val plantId = intent.getIntExtra(Constants.PLANT_ID, 999999)
         CoroutineScope(Dispatchers.IO).launch {
             val plantItem = viewModel.getPlantPerId(plantId)
-            Log.i(Constants.TAG, plantItem.id.toString())
-            binding.textView2.text = plantItem.title
-            binding.textView4.text = plantItem.frequencyDay.toString()
-            binding.textView8.text = plantItem.light
-            binding.textView9.text = plantItem.ml.toString() + "ml"
-            binding.textView91.text = plantItem.temperature.toString() + "C"
-            binding.ln.setBackgroundColor(plantItem.plantColor)
+            CoroutineScope(Dispatchers.Main).launch {
+                binding.textView2.text = plantItem.title
+                binding.textView4.text = plantItem.frequencyDay.toString()
+                binding.textView8.text = plantItem.light
+                binding.textView9.text = plantItem.ml.toString() + "ml"
+                binding.textView91.text = plantItem.temperature.toString() + "C"
+                binding.ln.setBackgroundColor(plantItem.plantColor)
+                binding.imageView3.setImageBitmap(plantItem.photo)
+            }
+
+
         }
 
         binding.floatingActionButton.setOnClickListener {

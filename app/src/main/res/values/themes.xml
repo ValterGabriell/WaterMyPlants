@@ -38,7 +38,7 @@
     <style name="Theme.WaterMyPlants.Camera" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <!-- Primary brand plantColor. -->
         <item name="colorPrimary">@color/grey</item>
-        <item name="colorPrimaryVariant">@color/grey</item>
+        <item name="colorPrimaryVariant">@color/black</item>
         <item name="colorOnPrimary">@color/grey</item>
         <!-- Secondary brand plantColor. -->
         <item name="colorSecondary">@color/filter_checked</item>

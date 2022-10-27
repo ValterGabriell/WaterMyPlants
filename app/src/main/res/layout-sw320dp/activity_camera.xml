@@ -33,6 +33,7 @@
         android:id="@+id/activitycameratiltitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:counterMaxLength="8"
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
@@ -44,6 +45,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/activity_camera_title_edit_text"
+            android:maxLength="8"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Titulo" />

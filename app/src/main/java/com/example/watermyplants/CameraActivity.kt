@@ -26,6 +26,7 @@ import com.example.watermyplants.databinding.ActivityCameraBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 import java.io.ByteArrayOutputStream
@@ -73,7 +74,9 @@ class CameraActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks 
     }
 
     override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
-        startActivity(Intent(this, MainActivity::class.java))
+        val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("permissionGranted", true)
+        startActivity(intent)
     }
 
     override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
@@ -135,7 +138,7 @@ class CameraActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks 
             }
         }
 
-        if (txt_title.isNotEmpty() && txt_qtd.isNotEmpty() && txt_temperature.isNotEmpty()) {
+        if (txt_title.isNotEmpty() && txt_qtd.isNotEmpty() && txt_temperature.isNotEmpty() && day_chip.isNotEmpty() && color_chip.isNotEmpty()) {
             val plantItem = PlantItem(
                 System.currentTimeMillis().toInt(),
                 txt_title,
@@ -157,14 +160,10 @@ class CameraActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks 
                     )
                     startActivity(Intent(this@CameraActivity, MainActivity::class.java))
                 }
-
-
             }.invokeOnCompletion {
                 CoroutineScope(Dispatchers.IO).launch {
-                    Log.i(Constants.TAG, plantItem.id.toString())
                     scheduleNotification(day_chip, plantItem.id, plantItem)
                 }
-
             }
 
         }
@@ -174,7 +173,6 @@ class CameraActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks 
 
 
     private fun scheduleNotification(day: String, id: Int, plantItem: PlantItem) {
-        Log.i(Constants.TAG, plantItem.toString())
         val intent = Intent(applicationContext, ReminderBroadcast::class.java)
         intent.putExtra("description", day)
         intent.putExtra("id", id)
@@ -185,7 +183,7 @@ class CameraActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks 
 
         //setando para o alarme disparar as 12h30
         val calendar = Calendar.getInstance().apply {
-            timeInMillis = System.currentTimeMillis()
+            timeInMillis = Clock.System.now().toEpochMilliseconds()
             set(Calendar.HOUR_OF_DAY, 12)
             set(Calendar.MINUTE, 0)
         }
@@ -258,7 +256,6 @@ class CameraActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks 
                 val image = BitmapFactory.decodeStream(inputStr)
                 binding.activityCameraImg.setImageBitmap(image)
                 imgBA = image
-
             }
         return getContent.launch("image/*")
     }

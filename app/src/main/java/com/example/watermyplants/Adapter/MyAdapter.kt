@@ -1,6 +1,5 @@
 package com.example.watermyplants.Adapter
 
-import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,9 +9,8 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.watermyplants.Model.PlantItem
 import com.example.watermyplants.R
-import com.squareup.picasso.Picasso
 
-class MyAdapter(val itens: List<PlantItem>) : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
+class MyAdapter(private val itens: List<PlantItem>) : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
 
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(plantItem: PlantItem) {
@@ -23,6 +21,7 @@ class MyAdapter(val itens: List<PlantItem>) : RecyclerView.Adapter<MyAdapter.MyV
                 plantItem.ml.toString() + " ml"
             val imagem = itemView.findViewById<ImageView>(R.id.imageView)
             imagem.setImageBitmap(plantItem.photo)
+
         }
     }
 

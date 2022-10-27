@@ -15,11 +15,9 @@ import kotlinx.datetime.*
 import java.io.ByteArrayOutputStream
 
 object Constants {
-    const val LOW = "Pouca"
-    const val MEDIUM = "Média"
-    const val HIGH = "Muita"
-    const val DAILY = "Dia"
-    const val WEEK = "Semana"
+    const val LOW = "Pouca luz"
+    const val MEDIUM = "Média luz"
+    const val HIGH = "Muita luz"
     const val TAG = "TAG"
     const val PLANT_ID = "PLANT_ID"
 
@@ -71,45 +69,5 @@ object Constants {
                 (it as Chip).text.toString()
             }.toList()
         return name.toString().replace("[", "").replace("]", "")
-    }
-
-
-    fun Constants.filterDay(day: String): Long {
-        val now = Clock.System.now()
-        val timezone = TimeZone.currentSystemDefault()
-        var diffInMillis: Long = 0L
-        when (day) {
-            this.DAQUI1DIA -> {
-                val add = now.plus(1, DateTimeUnit.DAY, timezone)
-                diffInMillis = now.until(add, DateTimeUnit.MILLISECOND, timezone)
-
-            }
-            this.DAQUI2DIAS -> {
-                val add = now.plus(2, DateTimeUnit.DAY, timezone)
-                diffInMillis = now.until(add, DateTimeUnit.MILLISECOND, timezone)
-            }
-            this.DAQUI3DIAS -> {
-                val add = now.plus(3, DateTimeUnit.DAY, timezone)
-                diffInMillis = now.until(add, DateTimeUnit.MILLISECOND, timezone)
-            }
-            this.DAQUI4DIAS -> {
-                val add = now.plus(4, DateTimeUnit.DAY, timezone)
-                diffInMillis = now.until(add, DateTimeUnit.MILLISECOND, timezone)
-            }
-            this.DAQUI5DIAS -> {
-                val add = now.plus(5, DateTimeUnit.DAY, timezone)
-                diffInMillis = now.until(add, DateTimeUnit.MILLISECOND, timezone)
-            }
-            this.DAQUI6DIAS -> {
-                val add = now.plus(6, DateTimeUnit.DAY, timezone)
-                diffInMillis = now.until(add, DateTimeUnit.MILLISECOND, timezone)
-            }
-            this.DAQUI7DIAS -> {
-                val add = now.plus(7, DateTimeUnit.DAY, timezone)
-                diffInMillis = now.until(add, DateTimeUnit.MILLISECOND, timezone)
-            }
-        }
-        Log.i(this.TAG, diffInMillis.toString())
-        return diffInMillis
     }
 }

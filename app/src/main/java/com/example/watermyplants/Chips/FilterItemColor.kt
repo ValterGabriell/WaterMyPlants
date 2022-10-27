@@ -17,11 +17,11 @@ fun FilterItemColor.toChip(context: Context): Chip {
                 this.text = "1"
             }
             1 -> {
-                setChipBackgroundColorResource(com.example.watermyplants.R.color.ltgray)
+                setChipBackgroundColorResource(com.example.watermyplants.R.color.cyan)
                 this.text = "2"
             }
             2 -> {
-                setChipBackgroundColorResource(com.example.watermyplants.R.color.cyan)
+                setChipBackgroundColorResource(com.example.watermyplants.R.color.ltgray)
                 this.text = "3"
             }
         }

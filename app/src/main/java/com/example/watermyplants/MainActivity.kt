@@ -3,7 +3,6 @@ package com.example.watermyplants
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Intent
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -34,29 +33,33 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-
-
-
-
-
         createNotificationChannel()
+
+        val permissionGranted = intent.extras?.getBoolean("permissionGranted")
+        permissionGranted.let {
+            if (it != null) {
+                startActivity(Intent(this, CameraActivity::class.java))
+            }
+        }
+
         CoroutineScope(Dispatchers.IO).launch {
             itemList.postValue(viewModel.getAllPlants())
         }
 
-
-        itemList.observe(this) {
-            adapter = MyAdapter(it)
-            binding.recyclerWaterToday.adapter = adapter
-            binding.recyclerWaterToday.layoutManager = LinearLayoutManager(this)
-            adapter.onItemClick = { plant_id, _ ->
-                val intent = Intent(this, DetailsScreen::class.java)
-                intent.putExtra(Constants.PLANT_ID, plant_id)
-                startActivity(intent)
+        itemList.observe(this) { listPlant ->
+            if (listPlant.isEmpty()) {
+                binding.textView.text = "Nenhuma planta adicionada"
+            } else {
+                adapter = MyAdapter(listPlant)
+                binding.recyclerWaterToday.adapter = adapter
+                binding.recyclerWaterToday.layoutManager = LinearLayoutManager(this)
+                adapter.onItemClick = { plant_id, _ ->
+                    val intent = Intent(this, DetailsScreen::class.java)
+                    intent.putExtra(Constants.PLANT_ID, plant_id)
+                    startActivity(intent)
+                }
             }
         }
-
 
         binding.include.btnToolbarAddPlant.setOnClickListener {
             startActivity(Intent(this, CameraActivity::class.java))
@@ -72,7 +75,6 @@ class MainActivity : AppCompatActivity() {
             val channel = NotificationChannel(channelID, channelName, importance)
             channel.description = description
             val notificationManager = getSystemService(NotificationManager::class.java)
-
             notificationManager.createNotificationChannel(channel)
         }
     }
