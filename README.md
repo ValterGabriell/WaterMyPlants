@@ -24,8 +24,9 @@
 
 <h1>Screenshots</h1>
 <div align="center">
-<img src="Screenshot_20221214_093939](https://user-images.githubusercontent.com/63808405/207599338-f4270543-1103-4f11-b935-506df1e77fc3.png" width = "250px">
-<img src="Screenshot_20221214_094011](https://user-images.githubusercontent.com/63808405/207599343-d7e693ef-314b-4e25-8b1b-80500d8ca9c4.png" width = "250px">
+<img src="https://user-images.githubusercontent.com/63808405/198385778-74646294-d779-4522-bca7-9ab39b92a030.png" width = "250px">
+<img src="https://user-images.githubusercontent.com/63808405/198385789-8b166973-d160-4f1f-9b1b-1860b8ba05dc.png" width = "250px">
+<img src="https://user-images.githubusercontent.com/63808405/198385750-5b056ef6-723c-41e3-8693-6e886a68acc9.png" width = "250px">
   </div>
   
 
